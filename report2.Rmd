@@ -1,0 +1,58 @@
+---
+header-includes: \usepackage{caption}
+output:
+  word_document: default
+  pdf_document,: default
+  html_document: default
+params:
+  m: NA
+---
+
+```{r setup, echo = FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+library(data.table)
+library(knitr) # for kable
+```
+# SUBJECT:	Comments Submitted by Syngenta Crop Protection, LLC Concerning the Draft Risk Assessments Published for Registration Review of Prometryn (PC Code 080805); EPA Docket ID No.: EPA-HQ-OPP-2013-0032
+
+To put the monitoring data into context, the distribution of measured `r params$m` water column concentrations was compared to the most sensitive effects endpoints for various taxa.  
+Overall, chronic endpoints for invertebrates (MRID 40573720) and fish (MRID 43801702) were orders of magnitude greater than highest recorded measurements of `r params$m` in surface waters (Figure 6).  Likewise, the most sensitive aquatic plant for vascular plants (MRID 42520901) was above the highest detected `r params$m` concentration (Figure 6).  
+It is important to emphasize that these comparisons are all based on the No Observable Adverse Effect Concentration (NOAEC); thereby, representing highly conservative assumptions of biological thresholds of effect for various taxa.  Conversely, endpoints from the most sensitive non-vascular aquatic plant study (MRID 42620201) did slightly overlap with measured concentrations of `r params$m` in surface waters.  However, to further put this overlap into the context of relative risk, it is important to emphasize that only 4.7% of samples were above the NOAEC (i.e. 0.288 µg/L) and <0.7% of the samples surpassed the EC50 (i.e. 1.04 µg/L; Figure 8).   
+
+
+```{r fig1, echo=FALSE, message=FALSE, warning=FALSE}
+plot_USGS2()
+```
+
+Given that screening level exceedances were identified for aquatic plants, additional higher tier risk assessment approaches were adopted to further investigate potential risk for this taxonomic group.  Rather than focusing exclusively on only the most sensitive species of aquatic plant, a Species Sensitivity Distribution (SSD) was developed.  Syngenta notes that Species Sensitivity Distributions (SSDs) may also be applied for assessing potential effects at the community level.  Aquatic ecosystems generally exhibit ‘‘functional redundancy or compensation’’ (Baskin, 1994; Moore, 1998; Diaz and Cabido, 2001; Peterson et al., 1998; Rosenfeld, 2002; Loreau, 2004), which implies that multiple species are present in an ecosystem to perform each critical function (Rosenfeld, 2002).  Thus, it is the collective vascular and non-vascular plant assemblage, rather than a single species that drives ecosystem functions. Table 3 summarizes the available data used to generate an aquatic plant SSD for `r params$m`.
+
+```{r fig2, echo=FALSE, message=FALSE, warning=FALSE}
+ssd.plot1()
+``` 
+
+\captionsetup[table]{labelformat=empty}
+
+```{r table3, echo=FALSE, message=FALSE, warning=FALSE, results='asis', tab.cap=NULL}
+data <- SSDdata()
+knitr::kable(data, caption = "Table 3.  Summary of data used to generate an aquatic plant SSD.")
+```
+
+SSD tool (in R) was used to fit five sigmoid-shaped models to the acute toxicity values for aquatic non-vascular plant species including the Logistic, Normal, Weibull, Extreme Value (Gompertz) and Gumbel (Fisher-Tippett) models. The model with the best fit to the data was used for generating the SSD. If multiple endpoint values were available for the same species, the geometric mean of these values was used to represent that species in the SSD.
+
+Information about the fit and a visualization for each of the models are shown in Tables 4 and 5 and Figure 7.  The Extreme Value model (Gompertz) seemed to have the best fit and also represented the most conservative HC estimates on the lower end of the curve.  The HC1, 5, and 10 values were 0.26, 1.43, and 3.01 µg/L, respectively.
+
+```{r table4, echo=FALSE, message=FALSE, warning=FALSE, results='asis', tab.cap=NULL}
+data <- mrkdwn.gof()
+knitr::kable(data, caption = "Table 4.  Goodness-of-fit tests results", digits=3)
+```
+
+```{r table5, echo=FALSE, message=FALSE, warning=FALSE, results='asis', tab.cap=NULL}
+data <- ssd.summary()
+knitr::kable(data, caption = "Table 5.  Summary of model fits of the  species sensitivity distributions." )
+```
+
+Coupled with the available monitoring data, the aquatic plant SSD could be used to develop a joint probability curve.  Such an approach would allow a risk manager to understand the extent of time a certain percent of aquatic plant species (e.g. HC1, 5) would be impacted. Based on the available water monitoring data and the aquatic plant SSD it can be concluded that 1% of species would only be impacted 4% of the time, while 5 to 10% of species would only be impacted <0.25% of the time (Figure 8).   
+
+```{r fig3, echo=FALSE, message=FALSE, warning=FALSE}
+ssd.plot2()
+```
